@@ -5,22 +5,16 @@
             <div class="modal-container">
 
                 <div class="modal-header">
-                    <slot name="header">
-                    <i class="fas fa-exclamation"></i> 경고
-                    </slot>
+                    <slot name="header"></slot>
                 </div>
 
                 <div class="modal-body">
-                    <slot name="body">
-                    아무튼 무슨 잘못을 해서 경고창을 띄웠읍니다!
-                    </slot>
+                    <slot name="body"></slot>
                 </div>
 
                 <div class="modal-footer clear">
-                    <slot name="footer">
-                    <button class="modal-default-button" @click="$emit('close')">
-                        OK
-                    </button>
+                    <slot name="footer" tag="button" class="modal-default-button">
+                    <button class="modal-default-button" @click="$emit('close')"></button>
                     </slot>
                 </div>
             </div>

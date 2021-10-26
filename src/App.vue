@@ -1,11 +1,10 @@
 <template>
   <div id="app">
     <header-comp></header-comp>
-    <input-comp v-on:addItem="addOneItem"></input-comp>
+    <input-comp v-on:addTodo="addOneItem"></input-comp>
     <list-comp
       v-bind:propsdata="todoItems"
-      v-on:removeItem="removeOneItem"
-      v-on:toggleItem="toggleOneItem"
+      v-on:removeTodo="removeOneItem"
     ></list-comp>
     <footer-comp v-on:clearAll="clearAllItems"></footer-comp>
     <!-- <modal></modal> -->
@@ -19,8 +18,8 @@
   import Input from './components/input.vue';
   import List from './components/list.vue';
   import Footer from './components/footer.vue';
-  import Modal from './components/modal.vue';
-  import Ftest from './components/test.vue';
+  // Modal from './components/modal.vue';
+  //import Ftest from './components/test.vue';
 
   export default {
     components: {
@@ -28,19 +27,36 @@
       'input-comp': Input,
       'list-comp': List,
       'footer-comp': Footer,
-      'modal': Modal,
-      'formtest': Ftest
+      //'modal': Modal,
+      //'formtest': Ftest
     },
     data: function() {
       return {
-        todoItems: ''
+        todoItems: []
       };
     },
+    created() {
+        if (localStorage.length > 0) {
+            for (let i = 0; i < localStorage.length; i++) {
+                if ( localStorage.key(i) != 'loglevel:webpack-dev-server' ) {
+                  this.todoItems.push(localStorage.key(i));
+                }
+            }
+        }
+    },
     methods: {
-      addOneItem: function(){},
-      removeOneItem: function(){},
-      toggleOneItem: function(){},
-      clearAllItems: function(){},
+      addOneItem: function(todoItem){
+        localStorage.setItem(todoItem, todoItem);
+        this.todoItems.push(todoItem);
+      },
+      removeOneItem: function(todoItem, idx){
+        localStorage.removeItem(todoItem);
+        this.todoItems.splice(idx, 1);
+      },
+      clearAllItems: function(){
+        localStorage.clear();
+        this.todoItems = [];
+      },
     }
   }
 </script>

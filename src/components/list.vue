@@ -1,40 +1,36 @@
 <template>
     <div class="todolist">
-        <ul>
-            <li v-for="(todoItem, index) in todoItems" :key="todoItem">
+        <transition-group name="list" tag="ul">
+            <li v-for="(todoItem, index) in propsdata" :key="todoItem">
                 <i class="fas fa-check chkico"></i>
                 <span>{{todoItem}}</span>
                 <button @click="removeTodo(todoItem, index)"><i class="fas fa-minus-circle delico"></i></button>
             </li>
-        </ul>
+        </transition-group>
     </div>
 </template>
 
 <script>
 
 export default {
-    data() {
-        return {
-            todoItems: []
-        }
-    },
-    created() {
-        if (localStorage.length > 0) {
-            for (let i = 0; i < localStorage.length; i++) {
-                this.todoItems.push(localStorage.key(i));
-            }
-        }
-    },
+    props: ['propsdata'],
     methods: {
         removeTodo(todoItem, idx) {
-            localStorage.removeItem(todoItem);
-            this.todoItems.splice(idx, 1);
+            this.$emit('removeTodo', todoItem, idx);
         }
     }
 };
 </script>
 
 <style scoped>
+
+.list-enter-active, .list-leave-active {
+    transition: all 0.5s;
+}
+.list-enter, .list-leave-to {
+    opacity: 0;
+    transition: translateY(30px);
+}
 
 .todolist {
     padding: 5px 20px 0;

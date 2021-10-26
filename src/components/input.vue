@@ -1,30 +1,48 @@
 <template>
-    <form class="sch_form">
-        <input v-model="newTodoItem" type="text" class="ipt">
-        <button v-on:click="addTodo" class="btn"><i class="fas fa-plus btnico"></i></button>
-    </form>
+    <div>
+        <form v-on:submit="addTodo" class="sch_form">
+            <input v-model="newTodoItem" type="text" class="ipt">
+            <button class="btn"><i class="fas fa-plus btnico"></i></button>
+        </form>
+        <modal v-if="showModal" @close="showModal = false">
+            <h3 slot="header">경고</h3>
+            <span slot="body">텍스트 내용을 입력하세요</span>
+            <button slot="footer" @click="showModal = false" class="modal-default-button">
+                확인
+            </button>
+        </modal>
+    </div>
 </template>
 
 <script>
+import Modal from './modal.vue';
 
 export default {
     data: function(){
         return {
-            newTodoItem: ''
+            newTodoItem: '',
+            showModal: false
         }
     },
     methods: {
         addTodo: function(e) {
-            e.preventDefault;
+            e.preventDefault();
             if (this.newTodoItem !== '') {
                 let value = this.newTodoItem && this.newTodoItem.trim();
-                localStorage.setItem(this.newTodoItem, this.newTodoItem);
+                this.$emit('addTodo', value);
                 this.clearInput();
+            } else {
+                this.showModal = !this.showModal;
+                document.querySelector('.ipt').blur();
+                return;
             }
         },
         clearInput: function() {
             this.newTodoItem = '';
         }
+    },
+    components: {
+        Modal: Modal
     }
 };
 </script>
