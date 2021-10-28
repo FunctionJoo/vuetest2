@@ -17,7 +17,7 @@ export default {
 
 <style scoped>
 footer {
-    margin: 20px 20px 0;
+    margin: 20px 20px 30px;
 }
 
 .del_all {

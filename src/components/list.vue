@@ -1,10 +1,11 @@
 <template>
     <div class="todolist">
-        <transition-group name="list" tag="ul">
-            <li v-for="(todoItem, index) in propsdata" :key="todoItem">
+        <transition-group name="list" tag="ul" class="clear">
+            <li v-for="(txt, id) in propsdata" :key="id">
+                <div class="space"></div>
                 <i class="fas fa-check chkico"></i>
-                <span>{{todoItem}}</span>
-                <button @click="removeTodo(todoItem, index)"><i class="fas fa-minus-circle delico"></i></button>
+                <span>{{txt}}</span>
+                <button @click="removeTodo(id)"><i class="fas fa-minus-circle delico"></i></button>
             </li>
         </transition-group>
     </div>
@@ -15,8 +16,8 @@
 export default {
     props: ['propsdata'],
     methods: {
-        removeTodo(todoItem, idx) {
-            this.$emit('removeTodo', todoItem, idx);
+        removeTodo(id, txt) {
+            this.$emit('removeTodo', id);
         }
     }
 };
@@ -24,6 +25,8 @@ export default {
 
 <style scoped>
 
+/* 자체 딜레이 때문에 다중 클릭시 오류 발생이 잦음 */
+/* 키 값을 바꿔서 해결해버렸다 */
 .list-enter-active, .list-leave-active {
     transition: all 0.5s;
 }
@@ -74,6 +77,40 @@ export default {
     color: #f55;
     margin-left: auto;
     font-size: 20px;
+}
+
+@media (min-width: 600px) {
+    .todolist {
+        width: 1024px;
+        margin: 10px auto 0;
+        padding: 0 0 0 0;
+    }
+    .todolist li {
+        float: left;
+        width: calc(33.33% - 7px);
+        position: relative;
+        margin: 0 0 10px 10px;
+        box-sizing: border-box;
+    }
+    .todolist li:nth-of-type(3n + 1) {
+        margin-left: 0;
+    }
+    .todolist li .space {
+        padding-top: 100%;
+    }
+    .todolist li .chkico {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        font-size: 26px;
+    }
+    .todolist li span {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        padding: 0 15px;
+        
+    }
 }
 
 </style>

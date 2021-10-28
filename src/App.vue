@@ -32,30 +32,32 @@
     },
     data: function() {
       return {
-        todoItems: []
+        todoItems: {}
       };
     },
     created() {
         if (localStorage.length > 0) {
             for (let i = 0; i < localStorage.length; i++) {
-                if ( localStorage.key(i) != 'loglevel:webpack-dev-server' ) {
-                  this.todoItems.push(localStorage.key(i));
+                let id = localStorage.key(i);
+                if ( id != 'loglevel:webpack-dev-server' ) {
+                  this.todoItems[id] = localStorage.getItem(id);
                 }
             }
         }
     },
     methods: {
       addOneItem: function(todoItem){
-        localStorage.setItem(todoItem, todoItem);
-        this.todoItems.push(todoItem);
+        let key = new Date().getTime();
+        localStorage.setItem(key, todoItem);
+        this.$set(this.todoItems, key, todoItem);
       },
-      removeOneItem: function(todoItem, idx){
-        localStorage.removeItem(todoItem);
-        this.todoItems.splice(idx, 1);
+      removeOneItem: function(id){
+        localStorage.removeItem(id);
+        this.$delete(this.todoItems, id);
       },
       clearAllItems: function(){
         localStorage.clear();
-        this.todoItems = [];
+        this.todoItems = {};
       },
     }
   }

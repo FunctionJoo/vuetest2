@@ -33,4 +33,16 @@ export default {
         letter-spacing:-0.05em;
         line-height: 40px;
     }
+
+@media (min-width: 600px) {
+    header {
+        text-align: left;
+    }
+    header a {
+        margin: 0 0 0 20px;
+    }
+    header span {
+        font-size: 34px;
+    }
+}
 </style>

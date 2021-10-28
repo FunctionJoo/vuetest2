@@ -89,4 +89,15 @@ export default {
     .ipt:focus+.btn .btnico {
         color: #ff893f;
     }
+
+@media (min-width: 600px) {
+    .sch_form {
+        margin: 50px auto 40px;
+        width: 500px;
+    }
+    .ipt {
+        font-size: 17px;
+    }
+
+}
 </style>
