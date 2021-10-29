@@ -9,7 +9,7 @@
 export default {
     methods: {
         deleteAll() {
-            this.$emit('clearAll');
+            this.$store.commit('clearAllItems');
         }
     }
 };

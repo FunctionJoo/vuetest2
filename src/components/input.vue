@@ -29,7 +29,7 @@ export default {
             e.preventDefault();
             if (this.newTodoItem !== '') {
                 let value = this.newTodoItem && this.newTodoItem.trim();
-                this.$emit('addTodo', value);
+                this.$store.commit('addOneItem', value);
                 this.clearInput();
             } else {
                 this.showModal = !this.showModal;

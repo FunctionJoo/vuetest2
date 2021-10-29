@@ -1,7 +1,7 @@
 <template>
     <div class="todolist">
         <transition-group name="list" tag="ul" class="clear">
-            <li v-for="(txt, id) in propsdata" :key="id">
+            <li v-for="(txt, id) in todolists" :key="id">
                 <div class="space"></div>
                 <i class="fas fa-check chkico"></i>
                 <span>{{txt}}</span>
@@ -14,10 +14,17 @@
 <script>
 
 export default {
-    props: ['propsdata'],
+    beforeCreate() {
+        this.$store.commit('loadlistInit');
+    },
+    computed: {
+        todolists() {
+            return this.$store.getters.loadList
+        },
+    },
     methods: {
-        removeTodo(id, txt) {
-            this.$emit('removeTodo', id);
+        removeTodo(id) {
+            this.$store.commit('removeTodo', id)
         }
     }
 };

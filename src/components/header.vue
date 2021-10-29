@@ -1,13 +1,18 @@
 <template>
     <header>
-        <a href="#"><i class="fab fa-grav logoimg"></i><span>TODO It!</span></a>
+        <a href="#"><i class="fab fa-grav logoimg"></i><span>{{title}}</span></a>
+        <!-- <div v-on:click="asdf">make title asdf</div> -->
     </header>
 </template>
 
 <script>
 
 export default {
-
+    computed: {
+        title() {
+            return this.$store.state.appTitle
+        },
+    }
 };
 </script>
 
