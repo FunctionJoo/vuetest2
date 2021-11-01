@@ -1,10 +1,13 @@
 <template>
     <div class="todolist">
         <transition-group name="list" tag="ul" class="clear">
-            <li v-for="(txt, id) in todolists" :key="id">
-                <div class="space"></div>
-                <i class="fas fa-check chkico"></i>
-                <span>{{txt}}</span>
+            <li v-for="(datas, id) in todolists" :key="id">
+                <div v-if="datas.chk" class="space"></div>
+                <div v-else class="space unchk"></div>
+                <button class="chkicobtn" @click="dataChk(id, datas)">
+                    <i class="fas fa-check chkico"></i>
+                </button>
+                <span>{{datas.txt}}</span>
                 <button @click="removeTodo(id)"><i class="fas fa-minus-circle delico"></i></button>
             </li>
         </transition-group>
@@ -17,14 +20,23 @@ export default {
     beforeCreate() {
         this.$store.commit('loadlistInit');
     },
+    // data() {
+    //     return {
+    //         todolists: this.$store.getters.loadList()
+    //     }
+    // },
     computed: {
         todolists() {
-            return this.$store.getters.loadList
+            return this.$store.getters.loadList()
         },
     },
     methods: {
         removeTodo(id) {
             this.$store.commit('removeTodo', id)
+        },
+        dataChk(id, datas) {
+            this.$store.commit('dataChk', {id:id, datas:datas});
+            //this.todolists = this.$store.getters.loadList();
         }
     }
 };
@@ -84,6 +96,13 @@ export default {
     color: #f55;
     margin-left: auto;
     font-size: 20px;
+}
+
+.unchk+.chkicobtn .chkico {
+    color: #ccc;
+}
+.unchk+.chkicobtn+span {
+    color: #ccc;
 }
 
 @media (min-width: 600px) {

@@ -12,12 +12,29 @@ export default new Vuex.Store({
     mutations: {
         addOneItem(state, todoItem){
             let key = new Date().getTime();
-            localStorage.setItem(key, todoItem);
-            Vue.set(state.todoItems, key, todoItem);
+            let val = {
+                chk: true,
+                txt: todoItem
+            }
+            Vue.set(state.todoItems, key, val);
+            val = JSON.stringify(val);
+            localStorage.setItem(key, val);
         },
         removeTodo(state, id){
             localStorage.removeItem(id);
             Vue.delete(state.todoItems, id);
+        },
+        dataChk(state, propsdata) {
+            let val = {
+                chk: !propsdata.datas.chk,
+                txt: propsdata.datas.txt
+            }
+            Vue.set(state.todoItems, propsdata.id, val);
+            val = JSON.stringify(val);
+            localStorage.setItem(propsdata.id, val);
+            // 이상하게 감지가 안되서 버그 이용
+            Vue.set(state.todoItems, '', '');
+            Vue.delete(state.todoItems, '');
         },
         clearAllItems(state){
             localStorage.clear();
@@ -29,14 +46,14 @@ export default new Vuex.Store({
                 for (let i = 0; i < localStorage.length; i++) {
                     let id = localStorage.key(i);
                     if ( id != 'loglevel:webpack-dev-server' ) {
-                        state.todoItems[id] = localStorage.getItem(id);
+                        state.todoItems[id] = JSON.parse(localStorage.getItem(id));
                     }
                 }
             };
         }
     },
     getters: {
-        loadList: (state) => {
+        loadList: (state) => () => {
             console.log('getter');
             return state.todoItems
         }
